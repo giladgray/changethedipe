@@ -6,7 +6,13 @@ $diaperHeight: 180px;
 
 $statsBannerBackground: rgba(black, 0.3);
 
-@import 'sass-bootstrap/lib/bootstrap';
+// BOOTSTRAP!! just the basics
+@import "sass-bootstrap/lib/_variables";
+@import "sass-bootstrap/lib/_mixins";
+@import "sass-bootstrap/lib/_reset";
+@import "sass-bootstrap/lib/_scaffolding";
+@import "sass-bootstrap/lib/_type";
+@import "sass-bootstrap/lib/_utilities";
 
 // keyframes mixin
 @mixin keyframes($name) {
@@ -23,7 +29,7 @@ $statsBannerBackground: rgba(black, 0.3);
     @content;
   } 
 }
-// animation mixin with prefixing
+// animation mixins with prefixing
 @mixin animation($what) {
 	-webkit-animation: $what;
 	-moz-animation: $what;
@@ -49,22 +55,25 @@ $statsBannerBackground: rgba(black, 0.3);
 	transform-origin: $origin;
 }
 
+// Chunk Five by the League of Moveable Type
+// http://theleagueofmoveabletype.com/chunk
 @font-face {
-    font-family: 'Chunkfive';
-    src: url('fonts/Chunkfive-webfont.eot#') format('eot'),
-         url('fonts/Chunkfive-webfont.woff') format('woff'),
-         url('fonts/Chunkfive-webfont.ttf') format('truetype'),
-         url('fonts/Chunkfive-webfont.svg#webfontM8M0EYs2') format('svg');
+    font-family: "Chunkfive";
+    src: url("fonts/Chunkfive-webfont.eot#") format("eot"),
+         url("fonts/Chunkfive-webfont.woff") format("woff"),
+         url("fonts/Chunkfive-webfont.ttf") format("truetype"),
+         url("fonts/Chunkfive-webfont.svg#webfontM8M0EYs2") format("svg");
     font-weight: normal;
     font-style: normal;
 }
 
 .container {
-	font-family: Chunkfive, Arial, Helvetica, Sans-Serif;
+	font-family: Chunkfive, Helvetica, sans-serif;
 	font-size: 18px;
-
 	text-align: center;
 	margin: auto;
+
+	// full-screen, no scrolling
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -93,7 +102,6 @@ header {
 		border-radius: 6px;
 
 		em {
-			color: orange;
 			font-size: 5em;
 			line-height: normal;
 			font-style: normal;
@@ -104,17 +112,22 @@ header {
 
 .others {
 	position: absolute;
-	right: 2em;
+	right: 1em;
 	top: 2em;
 	bottom: 2em;
 	ul {
 		max-height: 100%;
-		overflow: scroll;
+		overflow-x: hidden;
+		overflow-y: scroll;
+		padding-right: 1em;
+		margin: 0;
+
 		li {
 			padding: 10px 0;
 			img {
 				margin: 0 0 10%;
 				width: 80px;
+				display: block;
 
 				&:hover {
 					@include animation(dipe .5s ease-in-out infinite alternate);
@@ -129,11 +142,6 @@ footer {
 	bottom: 1em;
 	width: 100%;
 	text-align: center;
-}
-
-.hero-unit {
-    margin: 50px auto 0 auto;
-    width: 600px;
 }
 
 .diaper {
@@ -179,12 +187,12 @@ footer {
 }
 
 @include keyframes(dipe) {
-	from {
+	0% {
 		margin-top: 0%;
 		margin-bottom: 10%;
 	}
 
-	to {
+	100% {
 		margin-top: 10%;
 		margin-bottom: 0%;
 	}

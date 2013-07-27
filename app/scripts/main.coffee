@@ -9,6 +9,8 @@ require.config
     bootstrap:
       deps: ['jquery']
       exports: 'jquery'
+    'jquery.transit':
+      deps: ['jquery']
     handlebars:
       exports: 'Handlebars'
       init: ->
@@ -69,7 +71,9 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
         # move it back onscreen
         dipe.transition({ top: '50%' }).swapClass(oldDipe, newDipe)
         # update score and pulse it
-        $('.stats em').text(++dipesChanged).transition({ scale: 1.5 }, 300).transition(scale: 1, easing: 'snap')
+        $('.stats em').text(++dipesChanged)
+          .transition({ scale: 1.5, color: 'orange' }, 300)
+          .transition({ scale: 1, color: 'white', easing: 'snap' }, 300)
         $('#tw').attr('href', $('#tw').attr('href').replace(/%20\d+%20/, "%20#{dipesChanged}%20"))
         oldDipe = newDipe
 
