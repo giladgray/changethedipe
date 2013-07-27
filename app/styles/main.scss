@@ -18,6 +18,13 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
     @content;
   } 
 }
+// animation mixin with prefixing
+@mixin animation($what) {
+	-webkit-animation: $what;
+	-moz-animation: $what;
+	-o-animation: $what; 
+	animation: $what;
+}
 
 @font-face {
     font-family: 'Chunkfive';
@@ -28,8 +35,6 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
     font-weight: normal;
     font-style: normal;
 }
-
-/* Applying it to some text */
 
 .container {
 	font-family: Chunkfive, Arial, Helvetica, Sans-Serif;
@@ -64,11 +69,7 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png";
 				margin: 0 0 10%;
 
 				&:hover {
-					-webkit-animation-name: dipe;
-					-webkit-animation-duration: .5s;
-					-webkit-animation-direction: alternate;
-					-webkit-animation-iteration-count: infinite;
-					-webkit-animation-timing-function: ease-in-out;
+					@include animation(dipe .5s ease-in-out infinite alternate);
 				}
 			}
 		}
@@ -98,29 +99,18 @@ $diaperHeight: 180px;
 	margin-left: -$diaperWidth / 2;
 	img {
 		@include size(128px, 200px);
-		image-rendering: optimizeSpeed;             /* Legal fallback                 */
-		image-rendering: -moz-crisp-edges;          /* Firefox                        */
-		image-rendering: -o-crisp-edges;            /* Opera                          */
-		image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
-		image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
-		-ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
-		// position: absolute;
-		-webkit-animation-name: dipe;
-		-webkit-animation-duration: 1s;
-		-webkit-animation-direction: alternate;
-		-webkit-animation-iteration-count: infinite;
-		-webkit-animation-timing-function: ease-in-out;
+		@include animation(dipe 1s ease-in-out infinite alternate);
 	}
 }
 
 @include keyframes(dipe) {
-  from {
-  	margin-top: 0%;
-  	margin-bottom: 10%;
-  }
+	from {
+		margin-top: 0%;
+		margin-bottom: 10%;
+	}
 
-  to {
-  	margin-top: 10%;
-  	margin-bottom: 0%;
-  }
+	to {
+		margin-top: 10%;
+		margin-bottom: 0%;
+	}
 }
