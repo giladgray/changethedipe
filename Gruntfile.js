@@ -37,6 +37,10 @@ module.exports = function (grunt) {
                 files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
                 tasks: ['compass:server']
             },
+            handlebars: {
+                files: ['<%= yeoman.app %>/templates/**/*.hbs'],
+                tasks: ['handlebars']
+            },
             livereload: {
                 options: {
                     livereload: LIVERELOAD_PORT
@@ -164,6 +168,22 @@ module.exports = function (grunt) {
                 }
             }
         },
+        handlebars: {
+            compile: {
+                files: {
+                    ".tmp/scripts/templates.js": ["<%= yeoman.app %>/templates/**/*.hbs"]
+                },
+                options: {
+                    amd: true,
+                    processName: function(filename) {
+                        // funky name processing here
+                        return filename
+                                .replace(/^app\/templates\//, '')
+                                .replace(/\.hbs$/, '');
+                    }
+                }
+            }
+        },
         // not used since Uglify task does concat,
         // but still available if needed
         /*concat: {
@@ -174,8 +194,14 @@ module.exports = function (grunt) {
                 // Options: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
                     // `name` and `out` is set by grunt-usemin
-                    baseUrl: yeomanConfig.app + '/scripts',
+                    // because of coffee-script, we'll have requirejs compile from .tmp folder
+                    baseUrl: '.tmp/scripts',
                     optimize: 'none',
+                    // paths for our own files (not bower_components)
+                    paths: {
+                        templates: '../../.tmp/scripts/templates',
+                        bootstrap: '../../.tmp/scripts/vendor/bootstrap'
+                    },
                     // TODO: Figure out how to make sourcemaps work with grunt-usemin
                     // https://github.com/yeoman/grunt-usemin/issues/30
                     //generateSourceMaps: true,
@@ -194,7 +220,7 @@ module.exports = function (grunt) {
                     src: [
                         '<%= yeoman.dist %>/scripts/{,*/}*.js',
                         '<%= yeoman.dist %>/styles/{,*/}*.css',
-                        '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
+                        // '<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp}',
                         '<%= yeoman.dist %>/styles/fonts/*'
                     ]
                 }
@@ -292,19 +318,33 @@ module.exports = function (grunt) {
                         'generated/*'
                     ]
                 }]
+            },
+            // copy scripts/lib folder to .tmp for requirejs
+            lib: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>', 
+                    dest: '.tmp', 
+                    src: [
+                        'scripts/{vendor,lib}/*.*'
+                    ]
+                }]
             }
         },
         concurrent: {
             server: [
                 'compass',
+                'handlebars',
                 'coffee:dist'
             ],
             test: [
                 'coffee'
             ],
             dist: [
-                'coffee',
                 'compass',
+                'handlebars',
+                'coffee',
                 'imagemin',
                 'svgmin',
                 'htmlmin'
@@ -315,7 +355,15 @@ module.exports = function (grunt) {
                 exclude: ['modernizr']
             },
             all: {
-                rjsConfig: '<%= yeoman.app %>/scripts/main.js'
+                rjsConfig: '.tmp/scripts/main.js'
+            }
+        },
+        // symlink bower_components folder into .tmp for requirejs
+        symlink: {
+            js: {
+                dest: '.tmp/bower_components',
+                relativeSrc: '../<%= yeoman.app %>/bower_components',
+                options: {type: 'dir'}
             }
         }
     });
@@ -343,8 +391,10 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
-        'useminPrepare',
         'concurrent:dist',
+        'copy:lib',
+        'symlink',
+        'useminPrepare',
         'requirejs',
         'concat',
         'cssmin',

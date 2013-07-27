@@ -1,12 +1,18 @@
 require.config
   paths:
-    jquery: "../bower_components/jquery/jquery"
-    bootstrap: "vendor/bootstrap"
+    jquery: '../bower_components/jquery/jquery'
+    'jquery.transit': '../bower_components/jquery.transit/jquery.transit'
+    bootstrap: 'vendor/bootstrap'
+    handlebars: '../bower_components/handlebars/handlebars.runtime'
 
   shim:
     bootstrap:
-      deps: ["jquery"]
-      exports: "jquery"
+      deps: ['jquery']
+      exports: 'jquery'
+    handlebars:
+      exports: 'Handlebars'
+      init: ->
+        @Handlebars = Handlebars
 
 require ["app", "jquery", "bootstrap"], (app, $) ->
   "use strict"
