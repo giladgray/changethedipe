@@ -97,7 +97,7 @@ $diaperHeight: 180px;
 	margin-top: -$diaperHeight / 2;
 	margin-left: -$diaperWidth / 2;
 	img {
-		@include square(150px);
+		@include size(128px, 200px);
 		image-rendering: optimizeSpeed;             /* Legal fallback                 */
 		image-rendering: -moz-crisp-edges;          /* Firefox                        */
 		image-rendering: -o-crisp-edges;            /* Opera                          */
