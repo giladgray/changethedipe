@@ -21,7 +21,7 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
     classic:
       image: 'pixel-dipe.png'
       background: '255,255,255'
-    orbital:
+    astro:
       image: 'orbital-dipe.png'
       background: '30,30,30'
       also: ['planet-1', 'planet-2', 'planet-3']
@@ -33,7 +33,7 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
       background: '128,0,128'
     enviro:
       image: 'forest-dipe.png'
-      background: '0,200,0'
+      background: '168,199,252'
     fancy:
       image: 'fancy-dipe.png'
       background: '165,1,1'
@@ -47,16 +47,17 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
     for dipe, details of diapers
       othersList.append Templates.diaper
         dipe: dipe
-        image: "/images/#{details.image}"
+        image: "images/#{details.image}"
 
     dipe = $('#diaper')
+
     $('.others img').bind 'click', (e) ->
       newDipe = $(this).takeClass('active').attr('alt')
       $('.stats').fadeIn()
-      # move dipe offscreen, change image
+      # move dipe offscreen, change image once transition completes
       dipe.transition { top: '150%'}, ->
         # change image and update margins to center
-        dipe.find('img').attr('src', '/images/' + diapers[newDipe].image).load ->
+        dipe.find('img').attr('src', 'images/' + diapers[newDipe].image).load ->
           dipe.css 'margin-top', -@height / 2
 
         # insert bonus elements
@@ -67,6 +68,10 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
 
         # move it back onscreen
         dipe.transition({ top: '50%' }).swapClass(oldDipe, newDipe)
+        # update score and pulse it
         $('.stats em').text(++dipesChanged).transition({ scale: 1.5 }, 300).transition(scale: 1, easing: 'snap')
+        $('#tw').attr('href', $('#tw').attr('href').replace(/%20\d+%20/, "%20#{dipesChanged}%20"))
         oldDipe = newDipe
+
+      # change body background color
       $('body').transition({ background: "rgb(#{diapers[newDipe].background})" }, TIMING * 2)
