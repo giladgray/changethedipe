@@ -66,6 +66,7 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
     $stash = $('.others img')
 
     changeDiaper = (e) ->
+      # whoa, don't interrupt me when I'm changing dipes
       $stash.off 'click'
       newDipe = $(this).takeClass('active').attr('alt')
       # bring the music volume down
@@ -117,12 +118,14 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
 
           # update tweet text
           $('#tw').attr('onclick', $('#tw').attr('onclick').replace(/%20\d+%20dipes/, "%20#{dipesChanged}%20dipes"))
-
-          oldDipe = newDipe
+          # put the event listener back on so we're ready for next click
           $stash.on 'click', changeDiaper
+          oldDipe = newDipe
+
         # change body background color
         $('body').transition({ background: "rgb(#{diapers[newDipe].background})" }, TIMING * 2)
 
+    # ok, listen for a click on a dipe in the stash
     $stash.on 'click', changeDiaper
 
     $('.others img').first().click()
