@@ -33,6 +33,10 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
     hipster:
       image: 'hipster-dipe.png'
       background: '128,0,128'
+    kawaii:
+      image: 'kawaii-dipe.png'
+      background: '153,207,233'
+      also: ['kawaii-bows.png']
     enviro:
       image: 'forest-dipe.png'
       background: '168,199,252'

@@ -56,12 +56,26 @@
 		margin-top: -1.2em
 		opacity: 0
 
+// a simple rotation animation
+@include keyframes(wiggle) 
+	0%    
+		@include rotate(-10deg) 
+	100%  
+		@include rotate(10deg) 
+
 // messes with scale over time
 @include keyframes(pulse)
 	0%
 		@include scale(1.0)
 	100%
 		@include scale(1.5)
+
+// very tiny scale movement, make it fast
+@include keyframes(pulse-small)
+	0%
+		@include scale(1)
+	100%
+		@include scale(1.07)
 
 @include keyframes(slide)
 	0%

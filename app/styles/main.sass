@@ -217,7 +217,7 @@ footer
 	&.hipster > img
 		@include animation-name(hipster)
 
-	&.angel 
+	&.angel, &.kawaii
 		@include animation(dipe 1.5s ease-in-out infinite alternate)
 		> img
 			@include animation(none)
@@ -257,6 +257,9 @@ footer
 		visibility: hidden
 		z-index: -1
 		@include animation(drop 1s ceaser($easeOutQuart) 2.5s)
+
+	.kawaii-bows
+		@include animation(pulse-small 0.1s linear infinite alternate)
 
 	// three clouds floating across the sky
 	.angel-cloud
