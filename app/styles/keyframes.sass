@@ -1,0 +1,71 @@
+// keyframes mixin
+@mixin keyframes($name) 
+	@-webkit-keyframes #{$name}
+		@content 
+	
+	@-moz-keyframes #{$name}
+		@content
+	
+	@-ms-keyframes #{$name}
+		@content
+	
+	@keyframes #{$name}
+		@content
+
+// ** ANIMATIONS **
+// a simple rotation animation
+@include keyframes(rotate) 
+	0%    
+		@include rotate(0deg) 
+	100%  
+		@include rotate(360deg) 
+
+// the comfortable dipe float animation
+@include keyframes(dipe) 
+	0% 
+		padding-top: $animationStrength
+		padding-bottom: 0%
+	100% 
+		padding-top: 0%
+		padding-bottom: $animationStrength
+
+// hipsters move differently
+@include keyframes(hipster)
+	0% 
+		padding-left: 0%
+		padding-right: $animationStrength
+	100% 
+		padding-left: $animationStrength
+		padding-right: 0%
+
+// poo drops and stops
+@include keyframes(drop)
+	0%
+		visibility: visible
+		margin-top: 0%
+	100%
+		visibility: invisible
+		margin-top: 30%
+
+// fancy levelup animation that slides the title up and reveals the text
+@include keyframes(levelup)
+	0%, 100%
+		margin-top: 0em
+		opacity: 1
+	25%, 75%
+		margin-top: -1.2em
+		opacity: 0
+
+// messes with scale over time
+@include keyframes(pulse)
+	0%
+		@include scale(1.0)
+	100%
+		@include scale(1.5)
+
+@include keyframes(slide)
+	0%
+		visibility: visible
+		left: 100%
+	100%
+		left: -25%

@@ -3,6 +3,7 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png"
 
 $diaperWidth: 300px
 $diaperHeight: 180px
+$animationStrength: 10%
 
 $statsBannerBackground: rgba(black, 0.3)
 
@@ -16,19 +17,7 @@ $statsBannerBackground: rgba(black, 0.3)
 
 @import "ceaser-easing"
 
-// keyframes mixin
-@mixin keyframes($name) 
-	@-webkit-keyframes #{$name}
-		@content 
-	
-	@-moz-keyframes #{$name}
-		@content
-	
-	@-ms-keyframes #{$name}
-		@content
-	
-	@keyframes #{$name}
-		@content
+@import "keyframes"
 
 // animation mixins with prefixing
 @mixin animation($what) 
@@ -159,6 +148,7 @@ header
 				margin: 0 0 10%
 				width: 80px
 				display: block
+				padding-top: $animationStrength
 
 				&:hover 
 					@include animation(dipe .5s ease-in-out infinite alternate)
@@ -239,29 +229,3 @@ footer
 		visibility: hidden
 		z-index: -1
 		@include animation(drop 1s ceaser($easeOutQuart) 15s)
-
-// ** ANIMATIONS **
-// a simple rotation animation
-@include keyframes(rotate) 
-	0%    
-		@include rotate(0deg) 
-	100%  
-		@include rotate(360deg) 
-
-// the comfortable dipe float animation
-@include keyframes(dipe) 
-	0% 
-		margin-top: 0%
-		margin-bottom: 10%
-	100% 
-		margin-top: 10%
-		margin-bottom: 0%
-
-// poo drops and stops
-@include keyframes(drop)
-	0%
-		visibility: visible
-		margin-top: 0%
-	100%
-		visibility: invisible
-		margin-top: 40%
