@@ -80,7 +80,7 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
             .transition({ scale: 1.5, color: 'orange' }, 300)
             .transition({ scale: 1, color: 'white', easing: 'snap' }, 300)
           # update tweet text
-          $('#tw').attr('href', $('#tw').attr('href').replace(/%20\d+%20dipes/, "%20#{dipesChanged}%20dipes"))
+          $('#tw').attr('onclick', $('#tw').attr('onclick').replace(/%20\d+%20dipes/, "%20#{dipesChanged}%20dipes"))
 
           oldDipe = newDipe
 
