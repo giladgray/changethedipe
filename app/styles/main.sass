@@ -3,6 +3,7 @@ $iconWhiteSpritePath: "../images/glyphicons-halflings-white.png"
 
 $diaperWidth: 300px
 $diaperHeight: 180px
+$diaperThumbWidth: 80px
 $animationStrength: 10%
 
 $statsBannerBackground: rgba(black, 0.3)
@@ -162,9 +163,16 @@ header
 
 			img 
 				margin: 0 0 5%
-				width: 80px
+				width: $diaperThumbWidth
 				display: block
 				padding-top: $animationStrength
+				margin-left: 0
+				@include transition(margin-left 0.3s ease-in 0.5s)
+				@include user-select(none)
+
+				&.active
+					margin-left: 150%
+					@include transition-delay(0s)
 
 				&:hover 
 					@include animation(dipe .5s ease-in-out infinite alternate)
@@ -224,6 +232,9 @@ footer
 		#also
 			top: -$diaperHeight * (10 / 9)
 			z-index: -1
+
+	&.kawaii
+		@include animation-duration(0.6s)
 
 // additional dipe elements
 #also 

@@ -18,6 +18,7 @@ require.config
 
 require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
   TIMING = 800
+  MUSIC = true
 
   diapers =
     classic:
@@ -62,19 +63,22 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
     $dipe = $('#diaper')
     $audio = $('audio')
     audioType = if !!$audio[0].canPlayType('audio/ogg') then 'ogg' else 'mp3'
+    $stash = $('.others img')
 
-    $('.others img').bind 'click', (e) ->
+    changeDiaper = (e) ->
+      $stash.off 'click'
       newDipe = $(this).takeClass('active').attr('alt')
       # bring the music volume down
       $audio.animate {volume: 0}, TIMING
       # move dipe offscreen, change image once transition completes
-      $dipe.transition { top: '150%' }, ->
+      $dipe.transition { 'top': '150%' }, ->
         loaded = false
 
-        # change music and get it loading.
-        # music files are named according to diaper object above
-        $audio.attr('src', "audio/#{newDipe}-dipe.#{audioType}")
-        $audio[0].load()
+        if MUSIC
+          # change music and get it loading.
+          # music files are named according to diaper object above
+          $audio.attr('src', "audio/#{newDipe}-dipe.#{audioType}")
+          $audio[0].load()
 
         $dipe.find('img').attr('src', 'images/' + diapers[newDipe].image).load ->
           # prevent load spamming -- one change seems to trigger the callback 4+ times
@@ -91,9 +95,10 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
               bits = /^([^\.]+)\.(\w+)$/.exec bonus
               $('#also').append Templates.bonus(name: bits[1], file: bits[0])
 
-          # now play the music and bring volume back up
-          $audio[0].play()
-          $audio.animate {volume: 1}, TIMING
+          if MUSIC
+            # now play the music and bring volume back up
+            $audio[0].play()
+            $audio.animate {volume: 1}, TIMING
 
           # move it back onscreen
           $dipe.transition({ top: '45%' }).swapClass(oldDipe, newDipe)
@@ -114,8 +119,10 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
           $('#tw').attr('onclick', $('#tw').attr('onclick').replace(/%20\d+%20dipes/, "%20#{dipesChanged}%20dipes"))
 
           oldDipe = newDipe
+          $stash.on 'click', changeDiaper
+        # change body background color
+        $('body').transition({ background: "rgb(#{diapers[newDipe].background})" }, TIMING * 2)
 
-      # change body background color
-      $('body').transition({ background: "rgb(#{diapers[newDipe].background})" }, TIMING * 2)
+    $stash.on 'click', changeDiaper
 
     $('.others img').first().click()
