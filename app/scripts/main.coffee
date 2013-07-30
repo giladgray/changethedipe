@@ -40,6 +40,10 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
     fancy:
       image: 'fancy-dipe.png'
       background: '165,1,1'
+    angel:
+      image: 'angel-dipe.png'
+      background: '255,246,205'
+      also: ['angel-dipe-wings.gif', 'angel-cloud.png', 'angel-cloud.png', 'angel-cloud.png']
 
   $(document).ready ->
     dipesChanged = 0

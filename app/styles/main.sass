@@ -38,6 +38,12 @@ $statsBannerBackground: rgba(black, 0.3)
 	-o-animation-duration: $time 
 	animation-duration: $time
 
+@mixin animation-name($time) 
+	-webkit-animation-name: $time
+	-moz-animation-name: $time
+	-o-animation-name: $time 
+	animation-name: $time
+
 @mixin transform-origin($origin) 
 	-webkit-transform-origin: $origin
 	-moz-transform-origin: $origin
@@ -61,6 +67,7 @@ $statsBannerBackground: rgba(black, 0.3)
 	right: 0
 	width: auto
 	margin: auto
+	overflow: hidden
 	
 	// font-sizing!
 	font-family: Chunkfive, Helvetica, sans-serif
@@ -77,14 +84,23 @@ $statsBannerBackground: rgba(black, 0.3)
 	@media (max-width: 400px)
 		font-size: 8px
 
-
 // page title and score counter
 header 
 	h1 
 		font-size: 4em
-		line-height: normal
+		line-height: 1.2em
+		height: 1em
+		overflow: hidden
 		padding: .5em 0 .3em
 		margin: 0
+
+		.levelup
+			color: orange
+
+		&.levelup .title
+			@include animation(levelup 3s ease-in-out)
+		&.levelup .levelup
+			@include animation(pulse 0.5s ease-in-out 6 alternate)
 	
 	.stats 
 		background: $statsBannerBackground
@@ -145,7 +161,7 @@ header
 			padding: 10px 0
 
 			img 
-				margin: 0 0 10%
+				margin: 0 0 5%
 				width: 80px
 				display: block
 				padding-top: $animationStrength
@@ -179,12 +195,13 @@ footer
 	bottom: 1em
 	width: 100%
 	text-align: center
+	z-index: -1
 
 // the dipe itself in the center of the screen
 .diaper 
 	@include size($diaperHeight, $diaperWidth)
 	position: absolute
-	top: 50%
+	top: 45%
 	left: 50%
 	// this gets adjusted via js when dipe is changed
 	margin-top: -$diaperHeight / 2
@@ -197,10 +214,21 @@ footer
 		@media (max-width: 500px)
 			width: 150px
 
+	&.hipster > img
+		@include animation-name(hipster)
+
+	&.angel 
+		@include animation(dipe 1.5s ease-in-out infinite alternate)
+		> img
+			@include animation(none)
+		#also
+			top: -$diaperHeight * (10 / 9)
+			z-index: -1
+
 // additional dipe elements
 #also 
 	position: relative
-	top: -($diaperHeight * 5 / 6)
+	top: -$diaperHeight
 
 	// *** PLANETS ***
 	// orbital periods and relative radii
@@ -228,4 +256,21 @@ footer
 		top: 50px
 		visibility: hidden
 		z-index: -1
-		@include animation(drop 1s ceaser($easeOutQuart) 15s)
+		@include animation(drop 1s ceaser($easeOutQuart) 2.5s)
+
+	// three clouds floating across the sky
+	.angel-cloud
+		visibility: hidden
+		position: fixed
+		opacity: 0.3
+		z-index: -2
+		@include animation(slide 10s linear infinite normal)
+
+		&:nth-of-type(2)
+			top: 5%
+			@include animation-delay(3.5s)
+		&:nth-of-type(3)
+			top: 30%
+		&:nth-of-type(4)
+			top: 65%
+			@include animation-delay(7s)
