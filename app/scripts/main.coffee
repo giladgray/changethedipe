@@ -23,10 +23,11 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
     classic:
       image: 'pixel-dipe.png'
       background: '255,255,255'
+      also: ['poo.gif']
     astro:
       image: 'orbital-dipe.png'
       background: '30,30,30'
-      also: ['planet-1', 'planet-2', 'planet-3']
+      also: ['planet-1.png', 'planet-2.png', 'planet-3.png']
     bane:
       image: 'bane-dipe.png'
       background: '200,200,200'
@@ -59,23 +60,29 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
       # move dipe offscreen, change image once transition completes
       dipe.transition { top: '150%'}, ->
         # change image and update margins to center
+        loaded = false
         dipe.find('img').attr('src', 'images/' + diapers[newDipe].image).load ->
+          return if loaded
+          loaded = true
           dipe.css 'margin-top', -@height / 2
 
-        # insert bonus elements
-        $('#also').html('')
-        if diapers[newDipe].also
-          for bonus in diapers[newDipe].also
-            $('#also').append Templates.bonus(bonus: bonus)
+          # insert bonus elements
+          $('#also').html('')
+          if diapers[newDipe].also
+            for bonus in diapers[newDipe].also
+              bits = /^([^\.]+)\.(\w+)/.exec bonus
+              $('#also').append Templates.bonus(name: bits[1], file: bits[0])
 
-        # move it back onscreen
-        dipe.transition({ top: '50%' }).swapClass(oldDipe, newDipe)
-        # update score and pulse it
-        $('.stats em').text(++dipesChanged)
-          .transition({ scale: 1.5, color: 'orange' }, 300)
-          .transition({ scale: 1, color: 'white', easing: 'snap' }, 300)
-        $('#tw').attr('href', $('#tw').attr('href').replace(/%20\d+%20/, "%20#{dipesChanged}%20"))
-        oldDipe = newDipe
+          # move it back onscreen
+          dipe.transition({ top: '50%' }).swapClass(oldDipe, newDipe)
+          # update score and pulse it
+          $('.stats em').text(++dipesChanged)
+            .transition({ scale: 1.5, color: 'orange' }, 300)
+            .transition({ scale: 1, color: 'white', easing: 'snap' }, 300)
+          # update tweet text
+          $('#tw').attr('href', $('#tw').attr('href').replace(/%20\d+%20dipes/, "%20#{dipesChanged}%20dipes"))
+
+          oldDipe = newDipe
 
       # change body background color
       $('body').transition({ background: "rgb(#{diapers[newDipe].background})" }, TIMING * 2)
