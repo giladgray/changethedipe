@@ -19,7 +19,7 @@ require.config
 require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
   TIMING = 800
 
-  diapers = window.diapers =
+  diapers =
     classic:
       image: 'pixel-dipe.png'
       background: '255,255,255'
@@ -55,31 +55,44 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
         dipe: dipe
         image: "images/#{details.image}"
 
-    dipe = $('#diaper')
+    $dipe = $('#diaper')
+    $audio = $('audio')
+    audioType = if !!$audio[0].canPlayType('audio/ogg') then 'ogg' else 'mp3'
 
     $('.others img').bind 'click', (e) ->
       newDipe = $(this).takeClass('active').attr('alt')
+      # bring the music volume down
+      $audio.animate {volume: 0}, TIMING
       # move dipe offscreen, change image once transition completes
-      dipe.transition { top: '150%' }, ->
-        # change image and update margins to center
+      $dipe.transition { top: '150%' }, ->
         loaded = false
-        dipe.find('img').attr('src', 'images/' + diapers[newDipe].image).load ->
+
+        # change music and get it loading.
+        # music files are named according to diaper object above
+        $audio.attr('src', "audio/#{newDipe}-dipe.#{audioType}")
+        $audio[0].load()
+
+        $dipe.find('img').attr('src', 'images/' + diapers[newDipe].image).load ->
           # prevent load spamming -- one change seems to trigger the callback 4+ times
           return if loaded
           loaded = true
           # center dipe vertically, they're not all the same height
-          dipe.css 'margin-top', -@height / 2
+          $dipe.css 'margin-top', -@height / 2
           dipesChanged++
 
           # insert bonus elements
           $('#also').html('')
           if diapers[newDipe].also
             for bonus in diapers[newDipe].also
-              bits = /^([^\.]+)\.(\w+)/.exec bonus
+              bits = /^([^\.]+)\.(\w+)$/.exec bonus
               $('#also').append Templates.bonus(name: bits[1], file: bits[0])
 
+          # now play the music and bring volume back up
+          $audio[0].play()
+          $audio.animate {volume: 1}, TIMING
+
           # move it back onscreen
-          dipe.transition({ top: '45%' }).swapClass(oldDipe, newDipe)
+          $dipe.transition({ top: '45%' }).swapClass(oldDipe, newDipe)
           # update score and pulse it
           if dipesChanged > 0
             $('.stats').fadeIn()
