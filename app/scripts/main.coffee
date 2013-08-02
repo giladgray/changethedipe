@@ -19,6 +19,7 @@ require.config
 require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
   TIMING = 800
   MUSIC = true
+  EXPERIENCE = 5
 
   diapers =
     classic:
@@ -110,7 +111,7 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
               .transition({ scale: 1.5, color: 'orange' }, 300)
               .transition({ scale: 1, color: 'white', easing: 'snap' }, 300)
 
-            if dipesChanged % 10 is 0
+            if dipesChanged % EXPERIENCE is 0
               $('h1').addClass('levelup')
               $('#also').append Templates.bonus(name: 'poo', file: 'poo.gif')
             else

@@ -245,23 +245,26 @@ footer
 	// *** PLANETS ***
 	// orbital periods and relative radii
 	$planetPeriods: 10s 8s 6s
-	$planetOrbits: 1.8 .9 1.2
+	$planetOrbits: 1.8 1.2 .9
 	// a mixin to generate a planet given a duration and orbit ratio
 	@mixin planet($duration, $orbit) 
 		@include animation(rotate $duration linear infinite normal)
-		@include transform-origin(0 50%)
-		text-align: right
 		width: $diaperWidth * $orbit
-		position: absolute
-		top: 50%
-		left: 50%
 		// rotate the planet itself in the opposite direction to preserve pixel-ness
 		img 
 			@include animation(rotate $duration linear infinite reverse)
+	[class^='planet-']
+		@include transform-origin(0 50%)
+		text-align: right
+		position: absolute
+		top: 50%
+		left: 50%
 	// now generate a CSS class for each planet using arrays above
 	@for $i from 1 through length($planetPeriods) 
 		.planet-#{$i}
 			@include planet(nth($planetPeriods, $i), nth($planetOrbits, $i))
+	.astro &
+		top: -140px
 
 	.poo
 		position: relative
