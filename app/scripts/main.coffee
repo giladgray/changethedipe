@@ -131,4 +131,7 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
     # ok, listen for a click on a dipe in the stash
     $stash.on 'click', changeDiaper
 
-    $('.others img').first().click()
+    # use the hash route to find initial dipe, or click on first dipe
+    firstDipe = $(".others #{location.hash}")
+    if location.hash and firstDipe.length then firstDipe.click()
+    else $('.others a:first').click()

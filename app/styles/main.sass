@@ -196,12 +196,15 @@ header
 
 		@media (max-width: 400px)
 			width: auto
-			height: $diaperThumbWidth + 30px
+			height: $diaperThumbWidth + 60px
 
-			li img
-				opacity: 1
-				@include transition(opacity 0.3s ease-in 0.5s)
-				&.active
+			li a
+				img
+					opacity: 1
+					width: 4em
+					padding: 0 .3em
+					@include transition(opacity 0.3s ease-in 0.5s)
+				&.active img
 					opacity: 0
 					margin-left: 0
 				// &./	margin-top: 0
