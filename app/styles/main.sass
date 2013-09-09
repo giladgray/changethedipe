@@ -21,31 +21,29 @@ $statsBannerBackground: rgba(black, 0.3)
 @import "keyframes"
 
 // animation mixins with prefixing
-@mixin animation($what) 
+@mixin animation($what)
 	-webkit-animation: $what
 	-moz-animation: $what
-	-o-animation: $what 
+	-o-animation: $what
 	animation: $what
 
-@mixin animation-delay($time) 
+@mixin animation-delay($time)
 	-webkit-animation-delay: $time
 	-moz-animation-delay: $time
-	-o-animation-delay: $time 
+	-o-animation-delay: $time
 	animation-delay: $time
 
-@mixin animation-duration($time) 
+@mixin animation-duration($time)
 	-webkit-animation-duration: $time
 	-moz-animation-duration: $time
-	-o-animation-duration: $time 
+	-o-animation-duration: $time
 	animation-duration: $time
 
-@mixin animation-name($time) 
 	-webkit-animation-name: $time
 	-moz-animation-name: $time
-	-o-animation-name: $time 
 	animation-name: $time
 
-@mixin transform-origin($origin) 
+@mixin transform-origin($origin)
 	-webkit-transform-origin: $origin
 	-moz-transform-origin: $origin
 	-o-transform-origin: $origin
@@ -53,7 +51,7 @@ $statsBannerBackground: rgba(black, 0.3)
 
 // Chunk Five by the League of Moveable Type
 // http://theleagueofmoveabletype.com/chunk
-@font-face 
+@font-face
 	font-family: "Chunkfive"
 	src: url("fonts/Chunkfive-webfont.eot#") format("eot"), url("fonts/Chunkfive-webfont.woff") format("woff"), url("fonts/Chunkfive-webfont.ttf") format("truetype"), url("fonts/Chunkfive-webfont.svg#webfontM8M0EYs2") format("svg")
 	font-weight: normal
@@ -61,13 +59,13 @@ $statsBannerBackground: rgba(black, 0.3)
 
 // Silkscreen by Jason Kottke
 // http://www.fontsquirrel.com/fonts/Silkscreen
-@font-face 
+@font-face
 	font-family: "Silkscreen"
 	src: url("fonts/slkscr.ttf") format("truetype")
 	font-weight: normal
 	font-style: normal
 
-.container 
+.container
 	// full-screen, no scrolling
 	position: fixed
 	top: 0
@@ -77,14 +75,14 @@ $statsBannerBackground: rgba(black, 0.3)
 	width: auto
 	margin: auto
 	overflow: hidden
-	
+
 	// font-sizing!
 	font-family: Silkscreen, Chunkfive, Helvetica, sans-serif
 	font-size: 18px
 	text-align: center
 
 	// simply adjust font size for smaller screens
-	@media (max-width: 1024px) 
+	@media (max-width: 1024px)
 		font-size: 14px
 
 	@media (max-width: 768px)
@@ -94,8 +92,8 @@ $statsBannerBackground: rgba(black, 0.3)
 		font-size: 8px
 
 // page title and score counter
-header 
-	h1 
+header
+	h1
 		font-size: 4em
 		font-weight: normal
 		line-height: 1.2em
@@ -111,8 +109,8 @@ header
 			@include animation(levelup 3s ease-in-out)
 		&.levelup .levelup
 			@include animation(pulse 0.5s ease-in-out 6 alternate)
-	
-	.stats 
+
+	.stats
 		background: $statsBannerBackground
 		color: white
 		padding: 10px
@@ -122,7 +120,7 @@ header
 		left: 3em
 		bottom: 3em
 
-		em 
+		em
 			font-size: 5em
 			line-height: normal
 			font-style: normal
@@ -154,13 +152,13 @@ header
 				display: none
 
 // tray of dipes to change into
-.others 
+.others
 	position: absolute
 	right: 1em
 	top: 2em
 	bottom: 2em
 
-	ul 
+	ul
 		width: $diaperThumbWidth
 		max-height: 100%
 		overflow-x: hidden
@@ -168,7 +166,7 @@ header
 		padding-right: 1em
 		margin: 0
 
-		li 
+		li
 			padding: 10px 0
 			@media (max-width: 768px)
 				font-size: 16px
@@ -223,7 +221,7 @@ header
 					width: 50px
 
 // copyright attribution
-footer 
+footer
 	position: absolute
 	bottom: 1em
 	width: 100%
@@ -231,7 +229,7 @@ footer
 	z-index: -1
 
 // the dipe itself in the center of the screen
-.diaper 
+.diaper
 	@include size($diaperHeight, $diaperWidth)
 	position: absolute
 	top: 45%
@@ -240,7 +238,7 @@ footer
 	margin-top: -$diaperHeight / 2
 	margin-left: -$diaperWidth / 2
 
-	> img 
+	> img
 		width: 200px
 		@include animation(dipe 1s ease-in-out infinite alternate)
 
@@ -262,7 +260,7 @@ footer
 		@include animation-duration(0.6s)
 
 // additional dipe elements
-#also 
+#also
 	position: relative
 	top: -$diaperHeight
 
@@ -271,11 +269,11 @@ footer
 	$planetPeriods: 10s 8s 6s
 	$planetOrbits: 1.8 1.2 .9
 	// a mixin to generate a planet given a duration and orbit ratio
-	@mixin planet($duration, $orbit) 
+	@mixin planet($duration, $orbit)
 		@include animation(rotate $duration linear infinite normal)
 		width: $diaperWidth * $orbit
 		// rotate the planet itself in the opposite direction to preserve pixel-ness
-		img 
+		img
 			@include animation(rotate $duration linear infinite reverse)
 	[class^='planet-']
 		@include transform-origin(0 50%)
@@ -284,7 +282,7 @@ footer
 		top: 50%
 		left: 50%
 	// now generate a CSS class for each planet using arrays above
-	@for $i from 1 through length($planetPeriods) 
+	@for $i from 1 through length($planetPeriods)
 		.planet-#{$i}
 			@include planet(nth($planetPeriods, $i), nth($planetOrbits, $i))
 	.astro &
