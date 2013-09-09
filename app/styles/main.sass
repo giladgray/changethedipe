@@ -39,8 +39,10 @@ $statsBannerBackground: rgba(black, 0.3)
 	-o-animation-duration: $time
 	animation-duration: $time
 
+@mixin animation-name($time)
 	-webkit-animation-name: $time
 	-moz-animation-name: $time
+	-o-animation-name: $time
 	animation-name: $time
 
 @mixin transform-origin($origin)
@@ -171,21 +173,25 @@ header
 			@media (max-width: 768px)
 				font-size: 16px
 
-			img 
-				margin: 0 0 5%
-				width: $diaperThumbWidth
-				display: block
-				padding-top: $animationStrength
-				margin-left: 0
-				padding-top: 0
-				@include transition(margin-left 0.3s ease-in 0.5s)
-				@include user-select(none)
+			a
+				color: inherit
 
-				&.active
+				img
+					margin: 0 0 5%
+					width: $diaperThumbWidth
+					display: block
+					margin-top: $animationStrength
+					margin-left: 0
+					padding-top: 0
+					@include transition(margin-left 0.3s ease-in 0.5s)
+					@include user-select(none)
+
+				&.active img
 					margin-left: 150%
 					@include transition-delay(0s)
 
-				&:hover 
+				&:hover img
+					margin-top: 0
 					@include animation(dipe .5s ease-in-out infinite alternate)
 
 		@media (max-width: 400px)

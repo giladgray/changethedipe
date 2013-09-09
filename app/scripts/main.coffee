@@ -64,12 +64,14 @@ require ['templates', 'jquery', 'jquery.transit', 'helpers'], (Templates, $) ->
     $dipe = $('#diaper')
     $audio = $('audio')
     audioType = if !!$audio[0].canPlayType('audio/ogg') then 'ogg' else 'mp3'
-    $stash = $('.others img')
+    $stash = $('.others a')
 
     changeDiaper = (e) ->
+      $this = $(this)
+      return if $this.hasClass 'active'
       # whoa, don't interrupt me when I'm changing dipes
       $stash.off 'click'
-      newDipe = $(this).takeClass('active').attr('alt')
+      newDipe = $this.takeClass('active').find('img').attr('alt')
       # bring the music volume down
       $audio.animate {volume: 0}, TIMING
       # move dipe offscreen, change image once transition completes
